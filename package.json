@@ -2,9 +2,7 @@
 	"name": "farm-v1",
 	"version": "0.1.0",
 	"private": true,
-	"engines": {
-		"yarn": "1.x"
-	},
+	"main": "server/server.js",
 	"dependencies": {
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
@@ -24,7 +22,8 @@
 		"react-scripts": "^4.0.1"
 	},
 	"scripts": {
-		"start": "node server/server.js"
+		"start": "node server/server.js",
+		"serve": "node server/server.js"
 	},
 	"eslintConfig": {
 		"extends": [
