@@ -83,6 +83,7 @@ module.exports = gql`
         getFarm(farmId: ID!): Farm!
         getUserData(userId: ID!): User!
         getFriendList(userId: ID!): [Friend]!
+        getInvitationList(userId: ID!): [Friend]!
     }
     type Mutation {
         register(registerInput: RegisterInput!): User!
@@ -108,6 +109,7 @@ module.exports = gql`
     }
 
     type FriendListSubscriptionPayload {
+        mutation: UserMutationType!
         friend: Friend!
     }
 
@@ -121,5 +123,10 @@ module.exports = gql`
         CREATED_PLANT
         EDITED_PLANT
         DELETED_PLANT
+    }
+
+    enum UserMutationType {
+        INVITATION_LIST
+        FRIEND_LIST
     }
 `;

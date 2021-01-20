@@ -425,6 +425,7 @@ module.exports = {
 				await friend.save();
 				context.pubsub.publish(`subscribe friendList ${user.id}`, {
 					friendList: {
+						mutation: 'FRIEND_LIST',
 						friend: {
 							id: friend._id,
 							username: friend.username,
@@ -435,6 +436,7 @@ module.exports = {
 				});
 				context.pubsub.publish(`subscribe friendList ${friend._id}`, {
 					friendList: {
+						mutation: 'FRIEND_LIST',
 						friend: {
 							id: dbUser._id,
 							username: dbUser.username,
@@ -492,9 +494,9 @@ module.exports = {
 				const invIndex = dbUser.invitations.findIndex(
 					inv => inv.username === friendName
 				);
+				const date = new Date().toISOString();
 				if (invIndex !== -1) {
 					//accept
-					const date = new Date().toISOString();
 					dbUser.invitations.splice(invIndex, 1);
 					friend.friends.push({
 						_id: dbUser._id,
@@ -508,6 +510,28 @@ module.exports = {
 						email: friend.email,
 						createdAt: date,
 					});
+					context.pubsub.publish(`subscribe friendList ${user.id}`, {
+						friendList: {
+							mutation: 'FRIEND_LIST',
+							friend: {
+								id: friend._id,
+								username: friend.username,
+								email: friend.email,
+								createdAt: date,
+							}
+						}
+					});
+					context.pubsub.publish(`subscribe friendList ${friend._id}`, {
+						friendList: {
+							mutation: 'FRIEND_LIST',
+							friend: {
+								id: dbUser._id,
+								username: dbUser.username,
+								email: dbUser.email,
+								createdAt: date,
+							}
+						}
+					});
 					await dbUser.save();
 					await friend.save();
 					return 'Friend added successfully';
@@ -516,9 +540,20 @@ module.exports = {
 						_id: user.id,
 						username: user.username,
 						email: user.email,
-						createdAt: new Date().toISOString(),
+						createdAt: date,
 					};
 					friend.invitations.push(inv);
+					context.pubsub.publish(`subscribe friendList ${friend._id}`, {
+						friendList: {
+							mutation: 'INVITATION_LIST',
+							friend: {
+								id: dbUser._id,
+								username: dbUser.username,
+								email: dbUser.email,
+								createdAt: date,
+							}
+						}
+					});
 					await friend.save();
 					return 'Friend Invitation sent successfully';
 				}
