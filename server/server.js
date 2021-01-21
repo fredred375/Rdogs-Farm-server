@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 80
 
 const wakeUpDyno = require('./wakeUpDyno')
 const DYNO_URL = "https://rdogs-farm.herokuapp.com/";
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 100, () => {
     console.log("wakeUpDyno");
     wakeUpDyno(DYNO_URL);
 })
