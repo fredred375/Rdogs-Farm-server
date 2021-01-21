@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 80;
 
 const wakeUpDyno = require('./wakeUpDyno')
-const DYNO_URL = "";
+const DYNO_URL = "https://farm-by-rdogs.herokuapp.com/";
 app.listen(port, () => {
     wakeUpDyno(DYNO_URL);
 })
