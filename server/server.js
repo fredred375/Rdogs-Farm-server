@@ -7,10 +7,10 @@ const PORT = process.env.PORT || 80
 
 const wakeUpDyno = require('./wakeUpDyno')
 const DYNO_URL = "https://rdogs-farm.herokuapp.com/";
-app.listen(process.env.PORT || 100, () => {
-    console.log("wakeUpDyno");
-    wakeUpDyno(DYNO_URL);
-})
+// app.listen(process.env.PORT || 100, () => {
+//     console.log("wakeUpDyno");
+//     wakeUpDyno(DYNO_URL);
+// })
 
 const typeDefs = require('./graphql/typeDefs.js');
 const resolvers = require('./graphql/resolvers')
@@ -39,7 +39,10 @@ mongoose.connect(process.env.MONGO_URL, {
     useFindAndModify: false
 }).then(() => {
     console.log('MongoDB Connected');
-    return server.listen({ port: PORT });
+    return server.listen({ port: PORT }, () => {
+        console.log("wakeUpDyno");
+        wakeUpDyno(DYNO_URL);
+    });
 }).then((res) => {
     console.log(`Server running at ${res.url}`);  
 });
