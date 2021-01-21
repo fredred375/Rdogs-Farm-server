@@ -3,11 +3,11 @@ const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 80;
+const PORT = process.env.PORT || 5000
 
 const wakeUpDyno = require('./wakeUpDyno')
 const DYNO_URL = "https://farm-by-rdogs.herokuapp.com/";
-app.listen(port, () => {
+app.listen(PORT, () => {
     wakeUpDyno(DYNO_URL);
 })
 
@@ -15,7 +15,7 @@ const typeDefs = require('./graphql/typeDefs.js');
 const resolvers = require('./graphql/resolvers')
 
 const pubsub = new PubSub();
-const PORT = process.env.PORT || 5000
+
 
 const server = new ApolloServer({
     typeDefs,
