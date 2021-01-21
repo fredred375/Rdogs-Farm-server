@@ -1,11 +1,19 @@
 require('dotenv-defaults').config();
 const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 80;
+
+const wakeUpDyno = require('./wakeUpDyno')
+const DYNO_URL = "";
+app.listen(port, () => {
+    wakeUpDyno(DYNO_URL);
+})
 
 const typeDefs = require('./graphql/typeDefs.js');
 const resolvers = require('./graphql/resolvers')
 
-const PORT = process.env.PORT || 5000
 const pubsub = new PubSub();
 
 const server = new ApolloServer({
@@ -30,7 +38,7 @@ mongoose.connect(process.env.MONGO_URL, {
     useFindAndModify: false
 }).then(() => {
     console.log('MongoDB Connected');
-    return server.listen({ port: PORT });
+    return server.listen({ port: 5000 });
 }).then((res) => {
     console.log(`Server running at ${res.url}`);  
 });
