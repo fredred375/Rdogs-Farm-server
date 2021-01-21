@@ -5,11 +5,11 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000
 
-// const wakeUpDyno = require('./wakeUpDyno')
-// const DYNO_URL = "https://farm-by-rdogs.herokuapp.com/";
-// app.listen(PORT, () => {
-//     wakeUpDyno(DYNO_URL);
-// })
+const wakeUpDyno = require('./wakeUpDyno')
+const DYNO_URL = "https://rdogs-farm.herokuapp.com/";
+app.listen(PORT, () => {
+    wakeUpDyno(DYNO_URL);
+})
 
 const typeDefs = require('./graphql/typeDefs.js');
 const resolvers = require('./graphql/resolvers')
